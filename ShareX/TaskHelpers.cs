@@ -321,9 +321,10 @@ namespace ShareX
                     img.Save(stream, ImageFormat.Tiff);
                     break;
                 case EImageFormat.WEBP:
-                    //TODO: WebP quality reuses the jpeg quality setting. Rename? Or create a new setting instead?
-                    //TODO: WebP Save method supports quality values below 0 to be encoded as lossless,
-                    //  but no setting exists to support this. Similarly, no setting for compression quality exists yet.
+                    //TODO: WebP quality reuses the jpeg quality setting. Rename to make clear it is used by both?
+                    //  Or create a new setting instead?
+                    //TODO: No setting exists to encode WebP lossless. Similarly, no setting for
+                    //  compression quality (NOT the encoding quality!) exists yet.
                     WebpHelper.SaveImageAsWebpStream(img, stream, jpegQuality);
                     break;
             }

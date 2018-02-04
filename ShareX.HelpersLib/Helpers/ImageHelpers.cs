@@ -1478,6 +1478,7 @@ namespace ShareX.HelpersLib
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
+                //TODO: Should WebP be included in this filter list?
                 ofd.Filter = "Image files (*.png, *.jpg, *.jpeg, *.jpe, *.jfif, *.gif, *.bmp, *.tif, *.tiff)|*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.bmp;*.tif;*.tiff|" +
                     "PNG (*.png)|*.png|JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|GIF (*.gif)|*.gif|BMP (*.bmp)|*.bmp|TIFF (*.tif, *.tiff)|*.tif;*.tiff";
 
@@ -1531,6 +1532,8 @@ namespace ShareX.HelpersLib
 
         public static void SaveImage(Image img, string filePath)
         {
+            //TODO: Can this SaveImage method be called with a filePath that uses the webp extension?
+            //  If so, we need to use our custom save method instead.
             img.Save(filePath, GetImageFormat(filePath));
         }
 
@@ -1548,6 +1551,7 @@ namespace ShareX.HelpersLib
                     sfd.FileName = Path.GetFileNameWithoutExtension(filePath);
                 }
 
+                //TODO: Should WebP be included in this filter list?
                 sfd.DefaultExt = "png";
                 sfd.Filter = "PNG (*.png)|*.png|JPEG (*.jpg, *.jpeg, *.jpe, *.jfif)|*.jpg;*.jpeg;*.jpe;*.jfif|GIF (*.gif)|*.gif|BMP (*.bmp)|*.bmp|TIFF (*.tif, *.tiff)|*.tif;*.tiff";
 
@@ -1568,6 +1572,7 @@ namespace ShareX.HelpersLib
             {
                 if (!string.IsNullOrEmpty(filePath) && Helpers.IsImageFile(filePath) && File.Exists(filePath))
                 {
+                    //TODO: Could we use our special "load from stream" for WebP, like done in TaskHelpers?
                     Image img = Image.FromStream(new MemoryStream(File.ReadAllBytes(filePath)));
 
                     if (HelpersOptions.RotateImageByExifOrientationData)

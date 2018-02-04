@@ -258,6 +258,7 @@ namespace ShareX.HelpersLib
                     isImageLoading = true;
                     Text = Resources.MyPictureBox_LoadImageAsync_Loading_image___;
                     lblStatus.Visible = true;
+                    //TODO: Can we load WebP data async as well?
                     pbMain.LoadAsync(path);
                 }
             }
