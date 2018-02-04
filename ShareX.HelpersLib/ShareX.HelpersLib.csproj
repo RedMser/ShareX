@@ -456,6 +456,8 @@
     <Compile Include="UpdateChecker\XMLUpdateChecker.cs" />
     <Compile Include="Links.cs" />
     <Compile Include="Vector2.cs" />
+    <Compile Include="WebP\WebpHelper.cs" />
+    <Compile Include="WebP\WebpWrapper.cs" />
     <Compile Include="WindowState.cs" />
     <Compile Include="WritablePropertiesOnlyResolver.cs" />
     <Compile Include="XmlColor.cs" />
@@ -1224,6 +1226,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\animals.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libwebp_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libwebp_x86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
