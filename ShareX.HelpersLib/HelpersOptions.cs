@@ -34,5 +34,6 @@ namespace ShareX.HelpersLib
         public static bool UseAlternativeGetImage = true;
         public static bool RotateImageByExifOrientationData = true;
         public static string BrowserPath = null;
+        public static bool DarkTheme = false;
     }
 }

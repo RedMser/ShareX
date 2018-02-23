@@ -711,6 +711,8 @@ namespace ShareX
             HelpersOptions.DefaultCopyImageFillBackground = Program.Settings.DefaultClipboardCopyImageFillBackground;
             HelpersOptions.RotateImageByExifOrientationData = Program.Settings.RotateImageByExifOrientationData;
             HelpersOptions.BrowserPath = Program.Settings.BrowserPath;
+            HelpersOptions.DarkTheme = Program.Settings.DarkTheme;
+            //TODO: Redraw visible controls which change when the DarkTheme bool does (e.g. MyPictureBox, main window's preview)
             TaskManager.RecentManager.MaxCount = Program.Settings.RecentTasksMaxCount;
 
 #if RELEASE

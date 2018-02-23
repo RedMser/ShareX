@@ -662,7 +662,7 @@ namespace ShareX.HelpersLib
 
         public static Image DrawCheckers(Image img)
         {
-            return DrawCheckers(img, 10, Color.FromArgb(230, 230, 230), Color.White);
+            return DrawCheckers(img, 10, GetCheckerColor(true), GetCheckerColor(false));
         }
 
         public static Image DrawCheckers(Image img, int size, Color color1, Color color2)
@@ -703,7 +703,7 @@ namespace ShareX.HelpersLib
 
         public static Image CreateCheckerPattern(int width, int height)
         {
-            return CreateCheckerPattern(width, height, Color.FromArgb(230, 230, 230), Color.White);
+            return CreateCheckerPattern(width, height, GetCheckerColor(true), GetCheckerColor(false));
         }
 
         private static Image CreateCheckerPattern(int width, int height, Color color1, Color color2)
@@ -721,6 +721,18 @@ namespace ShareX.HelpersLib
             }
 
             return bmp;
+        }
+
+        private static Color GetCheckerColor(bool dark)
+        {
+            if (dark)
+            {
+                return HelpersOptions.DarkTheme ? Color.FromArgb(30, 30, 30) : Color.FromArgb(230, 230, 230);
+            }
+            else
+            {
+                return HelpersOptions.DarkTheme ? Color.FromArgb(50, 50, 50) : Color.White;
+            }
         }
 
         public static bool IsImagesEqual(Bitmap bmp1, Bitmap bmp2)
