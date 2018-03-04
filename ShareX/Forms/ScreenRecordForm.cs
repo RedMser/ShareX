@@ -342,14 +342,21 @@ namespace ShareX
                         tsmiPause.Enabled = true;
                         break;
                     //TODO: Actual pause/play icons for tsmiPause (be sure to edit image in designer as well)
+                    //TODO: Is a different string like "Paused... CLick tray icon to continue recording." needed?
                     case ScreenRecordState.Paused:
                         StartStopRecordingTimer(state);
+                        string trayTextPaused = "ShareX - " + Resources.ScreenRecordForm_StartRecording_Waiting___;
+                        niTray.Text = trayTextPaused.Truncate(63);
+                        niTray.Icon = Resources.control_record_yellow.ToIcon();
                         btnPause.Text = "Resume";
                         tsmiPause.Text = "Resume";
                         tsmiPause.Image = Resources.clock__arrow;
                         break;
                     case ScreenRecordState.Resumed:
                         StartStopRecordingTimer(state);
+                        string trayTextResumed = "ShareX - " + Resources.ScreenRecordForm_StartRecording_Click_tray_icon_to_stop_recording_;
+                        niTray.Text = trayTextResumed.Truncate(63);
+                        niTray.Icon = Resources.control_record.ToIcon();
                         btnPause.Text = "Pause";
                         tsmiPause.Text = "Pause";
                         tsmiPause.Image = Resources.clock;
