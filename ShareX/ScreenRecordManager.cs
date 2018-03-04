@@ -36,6 +36,7 @@ namespace ShareX
     public static class ScreenRecordManager
     {
         public static bool IsRecording { get; private set; }
+        public static bool IsPaused { get; private set; }
 
         private static ScreenRecorder screenRecorder;
         private static ScreenRecordForm recordForm;
@@ -68,6 +69,23 @@ namespace ShareX
             if (IsRecording && screenRecorder != null)
             {
                 screenRecorder.StopRecording();
+            }
+        }
+
+        private static void PauseResumeRecording()
+        {
+            if (IsRecording && screenRecorder != null)
+            {
+                if (IsPaused)
+                {
+                    IsPaused = false;
+                    screenRecorder.ResumeRecording();
+                }
+                else
+                {
+                    IsPaused = true;
+                    screenRecorder.PauseRecording();
+                }
             }
         }
 
@@ -174,6 +192,7 @@ namespace ShareX
 
             recordForm = new ScreenRecordForm(captureRectangle, startMethod == ScreenRecordStartMethod.Region, duration);
             recordForm.StopRequested += StopRecording;
+            recordForm.PauseResumeRequested += PauseResumeRecording;
             recordForm.Show();
 
             TaskEx.Run(() =>
@@ -231,6 +250,8 @@ namespace ShareX
 
                             screenRecorder = new ScreenRecorder(ScreenRecordOutput.FFmpeg, options, screenshot, captureRectangle);
                             screenRecorder.RecordingStarted += () => recordForm.ChangeState(ScreenRecordState.AfterRecordingStart);
+                            screenRecorder.RecordingPaused += () => recordForm.ChangeState(ScreenRecordState.Paused);
+                            screenRecorder.RecordingResumed += () => recordForm.ChangeState(ScreenRecordState.Resumed);
                             recordForm.ChangeState(ScreenRecordState.AfterStart);
                             screenRecorder.StartRecording();
 

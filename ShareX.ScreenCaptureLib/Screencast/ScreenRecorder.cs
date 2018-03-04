@@ -90,6 +90,8 @@ namespace ShareX.ScreenCaptureLib
         public ScreencastOptions Options { get; set; }
 
         public event Action RecordingStarted;
+        public event Action RecordingPaused;
+        public event Action RecordingResumed;
 
         public delegate void ProgressEventHandler(int progress);
         public event ProgressEventHandler EncodingProgressChanged;
@@ -157,6 +159,26 @@ namespace ShareX.ScreenCaptureLib
             }
 
             IsRecording = false;
+        }
+
+        public void PauseRecording()
+        {
+            //NYI: Tell FFMPEG to stop recording, storing that segment for later concat
+            //  -> invoke event only once ffmpeg actually stopped fully
+            if (RecordingPaused != null)
+            {
+                RecordingPaused();
+            }
+        }
+
+        public void ResumeRecording()
+        {
+            //NYI: Tell FFMPEG to continue recording, later on splicing the segments together
+            //  -> invoke event only once ffmpeg actually resumed recording
+            if (RecordingResumed != null)
+            {
+                RecordingResumed();
+            }
         }
 
         private void RecordUsingCache()

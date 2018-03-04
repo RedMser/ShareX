@@ -36,10 +36,12 @@ namespace ShareX
     public partial class ScreenRecordForm : Form
     {
         public event Action StopRequested;
+        public event Action PauseResumeRequested;
 
         public bool IsWorking { get; private set; }
         public bool IsRecording { get; private set; }
         public bool IsCountdown { get; set; }
+        public bool IsPaused { get; private set; }
         public TimeSpan Countdown { get; set; }
         public Stopwatch Timer { get; private set; }
         public ManualResetEvent RecordResetEvent { get; set; }
@@ -150,6 +152,14 @@ namespace ShareX
             }
         }
 
+        protected void OnPauseResumeRequested()
+        {
+            if (PauseResumeRequested != null)
+            {
+                PauseResumeRequested();
+            }
+        }
+
         public void StartCountdown(int milliseconds)
         {
             IsCountdown = true;
@@ -162,19 +172,40 @@ namespace ShareX
             UpdateTimer();
         }
 
-        public void StartRecordingTimer()
+        public void StartStopRecordingTimer(ScreenRecordState state)
         {
-            IsCountdown = duration > 0;
-            Countdown = TimeSpan.FromSeconds(duration);
+            switch (state)
+            {
+                case ScreenRecordState.AfterRecordingStart:
+                    IsCountdown = duration > 0;
+                    Countdown = TimeSpan.FromSeconds(duration);
 
-            lblTimer.ForeColor = Color.White;
-            borderColor = Color.FromArgb(0, 255, 0);
-            Refresh();
+                    lblTimer.ForeColor = Color.White;
+                    borderColor = Color.Lime;
+                    Refresh();
 
-            Timer.Reset();
-            Timer.Start();
-            timerRefresh.Start();
-            UpdateTimer();
+                    Timer.Reset();
+                    Timer.Start();
+                    timerRefresh.Start();
+                    UpdateTimer();
+                    break;
+                case ScreenRecordState.Paused:
+                    borderColor = Color.Yellow;
+                    Refresh();
+
+                    Timer.Stop();
+                    timerRefresh.Stop();
+                    UpdateTimer();
+                    break;
+                case ScreenRecordState.Resumed:
+                    borderColor = Color.Lime;
+                    Refresh();
+
+                    Timer.Start();
+                    timerRefresh.Start();
+                    UpdateTimer();
+                    break;
+            }
         }
 
         private void UpdateTimer()
@@ -230,6 +261,14 @@ namespace ShareX
             }
         }
 
+        private void btnPause_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                PauseResumeRecording();
+            }
+        }
+
         public void StartStopRecording()
         {
             if (IsWorking)
@@ -253,6 +292,20 @@ namespace ShareX
         {
             IsAbortRequested = true;
             StartStopRecording();
+        }
+
+        public void PauseResumeRecording()
+        {
+            if (IsPaused)
+            {
+                IsPaused = false;
+                OnPauseResumeRequested();
+            }
+            else
+            {
+                IsPaused = true;
+                OnPauseResumeRequested();
+            }
         }
 
         public void ChangeState(ScreenRecordState state)
@@ -284,7 +337,22 @@ namespace ShareX
                         break;
                     case ScreenRecordState.AfterRecordingStart:
                         IsRecording = true;
-                        StartRecordingTimer();
+                        StartStopRecordingTimer(state);
+                        btnPause.Enabled = true;
+                        tsmiPause.Enabled = true;
+                        break;
+                    //TODO: Actual pause/play icons for tsmiPause (be sure to edit image in designer as well)
+                    case ScreenRecordState.Paused:
+                        StartStopRecordingTimer(state);
+                        btnPause.Text = "Resume";
+                        tsmiPause.Text = "Resume";
+                        tsmiPause.Image = Resources.clock__arrow;
+                        break;
+                    case ScreenRecordState.Resumed:
+                        StartStopRecordingTimer(state);
+                        btnPause.Text = "Pause";
+                        tsmiPause.Text = "Pause";
+                        tsmiPause.Image = Resources.clock;
                         break;
                     case ScreenRecordState.AfterStop:
                         Hide();

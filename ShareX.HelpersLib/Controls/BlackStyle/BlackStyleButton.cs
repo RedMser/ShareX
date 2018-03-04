@@ -58,9 +58,15 @@ namespace ShareX.HelpersLib
             }
         }
 
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            base.OnEnabledChanged(e);
+            Refresh();
+        }
+
         private string text;
         private bool isHover;
-        private LinearGradientBrush backgroundBrush, backgroundHoverBrush, innerBorderBrush;
+        private LinearGradientBrush backgroundBrush, backgroundDisabledBrush, backgroundHoverBrush, innerBorderBrush;
         private Pen innerBorderPen, borderPen;
 
         public BlackStyleButton()
@@ -75,6 +81,7 @@ namespace ShareX.HelpersLib
         private void Prepare()
         {
             backgroundBrush = new LinearGradientBrush(new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4), Color.FromArgb(105, 105, 105), Color.FromArgb(65, 65, 65), LinearGradientMode.Vertical);
+            backgroundDisabledBrush = new LinearGradientBrush(new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4), Color.FromArgb(50, 50, 50), Color.FromArgb(40, 40, 40), LinearGradientMode.Vertical);
             backgroundHoverBrush = new LinearGradientBrush(new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4), Color.FromArgb(115, 115, 115), Color.FromArgb(75, 75, 75), LinearGradientMode.Vertical);
             innerBorderBrush = new LinearGradientBrush(new Rectangle(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), Color.FromArgb(125, 125, 125), Color.FromArgb(75, 75, 75), LinearGradientMode.Vertical);
             innerBorderPen = new Pen(innerBorderBrush);
@@ -116,23 +123,31 @@ namespace ShareX.HelpersLib
 
         private void DrawBackground(Graphics g)
         {
-            if (isHover)
+            if (Enabled)
             {
-                g.FillRectangle(backgroundHoverBrush, new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4));
+                if (isHover)
+                {
+                    g.FillRectangle(backgroundHoverBrush, new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4));
+                }
+                else
+                {
+                    g.FillRectangle(backgroundBrush, new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4));
+                }
+                g.DrawRectangle(innerBorderPen, new Rectangle(1, 1, ClientSize.Width - 3, ClientSize.Height - 3));
             }
             else
             {
-                g.FillRectangle(backgroundBrush, new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4));
+                g.FillRectangle(backgroundDisabledBrush, new Rectangle(2, 2, ClientSize.Width - 4, ClientSize.Height - 4));
+                g.DrawRectangle(Pens.Black, new Rectangle(1, 1, ClientSize.Width - 3, ClientSize.Height - 3));
             }
 
-            g.DrawRectangle(innerBorderPen, new Rectangle(1, 1, ClientSize.Width - 3, ClientSize.Height - 3));
             g.DrawRectangle(borderPen, new Rectangle(0, 0, ClientSize.Width - 1, ClientSize.Height - 1));
         }
 
         private void DrawText(Graphics g)
         {
             TextRenderer.DrawText(g, Text, Font, new Rectangle(ClientRectangle.X, ClientRectangle.Y + 1, ClientRectangle.Width, ClientRectangle.Height), Color.Black);
-            TextRenderer.DrawText(g, Text, Font, ClientRectangle, ForeColor);
+            TextRenderer.DrawText(g, Text, Font, ClientRectangle, Enabled ? ForeColor : Color.Gray);
         }
 
         protected override void Dispose(bool disposing)

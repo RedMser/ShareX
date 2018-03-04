@@ -257,7 +257,7 @@ namespace ShareX
 
     public enum ScreenRecordState
     {
-        Waiting, BeforeStart, AfterStart, AfterRecordingStart, AfterStop
+        Waiting, BeforeStart, AfterStart, AfterRecordingStart, AfterStop, Paused, Resumed
     }
 
     public enum RegionCaptureType

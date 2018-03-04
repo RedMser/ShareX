@@ -17,49 +17,29 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScreenRecordForm));
-            this.btnStart = new ShareX.HelpersLib.BlackStyleButton();
-            this.lblTimer = new ShareX.HelpersLib.BlackStyleLabel();
             this.timerRefresh = new System.Windows.Forms.Timer(this.components);
-            this.btnAbort = new ShareX.HelpersLib.BlackStyleButton();
             this.pInfo = new System.Windows.Forms.Panel();
             this.cmsMain = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiStart = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAbort = new System.Windows.Forms.ToolStripMenuItem();
             this.niTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnPause = new ShareX.HelpersLib.BlackStyleButton();
+            this.btnAbort = new ShareX.HelpersLib.BlackStyleButton();
+            this.btnStart = new ShareX.HelpersLib.BlackStyleButton();
+            this.lblTimer = new ShareX.HelpersLib.BlackStyleLabel();
+            this.tsmiPause = new System.Windows.Forms.ToolStripMenuItem();
             this.pInfo.SuspendLayout();
             this.cmsMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnStart
-            // 
-            resources.ApplyResources(this.btnStart, "btnStart");
-            this.btnStart.ForeColor = System.Drawing.Color.White;
-            this.btnStart.Name = "btnStart";
-            this.btnStart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnStart_MouseClick);
-            // 
-            // lblTimer
-            // 
-            this.lblTimer.BackColor = System.Drawing.Color.DimGray;
-            this.lblTimer.DrawBorder = true;
-            resources.ApplyResources(this.lblTimer, "lblTimer");
-            this.lblTimer.ForeColor = System.Drawing.Color.White;
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // timerRefresh
             // 
             this.timerRefresh.Tick += new System.EventHandler(this.timerRefresh_Tick);
             // 
-            // btnAbort
-            // 
-            resources.ApplyResources(this.btnAbort, "btnAbort");
-            this.btnAbort.ForeColor = System.Drawing.Color.White;
-            this.btnAbort.Name = "btnAbort";
-            this.btnAbort.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnAbort_MouseClick);
-            // 
             // pInfo
             // 
             resources.ApplyResources(this.pInfo, "pInfo");
+            this.pInfo.Controls.Add(this.btnPause);
             this.pInfo.Controls.Add(this.btnAbort);
             this.pInfo.Controls.Add(this.btnStart);
             this.pInfo.Controls.Add(this.lblTimer);
@@ -69,7 +49,8 @@
             // 
             this.cmsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiStart,
-            this.tsmiAbort});
+            this.tsmiAbort,
+            this.tsmiPause});
             this.cmsMain.Name = "cmsMain";
             resources.ApplyResources(this.cmsMain, "cmsMain");
             // 
@@ -92,6 +73,43 @@
             this.niTray.ContextMenuStrip = this.cmsMain;
             resources.ApplyResources(this.niTray, "niTray");
             this.niTray.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnStart_MouseClick);
+            // 
+            // btnPause
+            // 
+            resources.ApplyResources(this.btnPause, "btnPause");
+            this.btnPause.ForeColor = System.Drawing.Color.White;
+            this.btnPause.Name = "btnPause";
+            this.btnPause.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnPause_MouseClick);
+            // 
+            // btnAbort
+            // 
+            resources.ApplyResources(this.btnAbort, "btnAbort");
+            this.btnAbort.ForeColor = System.Drawing.Color.White;
+            this.btnAbort.Name = "btnAbort";
+            this.btnAbort.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnAbort_MouseClick);
+            // 
+            // btnStart
+            // 
+            resources.ApplyResources(this.btnStart, "btnStart");
+            this.btnStart.ForeColor = System.Drawing.Color.White;
+            this.btnStart.Name = "btnStart";
+            this.btnStart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnStart_MouseClick);
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.BackColor = System.Drawing.Color.DimGray;
+            this.lblTimer.DrawBorder = true;
+            resources.ApplyResources(this.lblTimer, "lblTimer");
+            this.lblTimer.ForeColor = System.Drawing.Color.White;
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tsmiPause
+            // 
+            resources.ApplyResources(this.tsmiPause, "tsmiPause");
+            this.tsmiPause.Image = global::ShareX.Properties.Resources.clock;
+            this.tsmiPause.Name = "tsmiPause";
+            this.tsmiPause.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnPause_MouseClick);
             // 
             // ScreenRecordForm
             // 
@@ -122,5 +140,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiStart;
         private System.Windows.Forms.ToolStripMenuItem tsmiAbort;
         private System.Windows.Forms.NotifyIcon niTray;
+        private HelpersLib.BlackStyleButton btnPause;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPause;
     }
 }
