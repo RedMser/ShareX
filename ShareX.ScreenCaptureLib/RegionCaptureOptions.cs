@@ -72,6 +72,7 @@ namespace ShareX.ScreenCaptureLib
         public bool RememberMenuState = false;
         public bool MenuCollapsed = false;
         public Point MenuPosition = Point.Empty;
+        public bool ConfirmExit = true;
 
         // Annotation
         public AnnotationOptions AnnotationOptions = new AnnotationOptions();

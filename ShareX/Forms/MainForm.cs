@@ -723,6 +723,7 @@ namespace ShareX
         private void AfterTaskSettingsJobs()
         {
             tsmiShowCursor.Checked = tsmiTrayShowCursor.Checked = Program.DefaultTaskSettings.CaptureSettings.ShowCursor;
+            Program.DefaultTaskSettings.CaptureSettings.SurfaceOptions.ConfirmExit = Program.DefaultTaskSettings.AdvancedSettings.ConfirmExit;
         }
 
         public void UpdateCheckStates()

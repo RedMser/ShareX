@@ -503,6 +503,18 @@ namespace ShareX.ScreenCaptureLib
         {
             if (e.KeyData == Keys.Escape)
             {
+                if (Options.ConfirmExit && AnyShapes())
+                {
+                    //BUG: ConfirmExit dialog does not show without hiding the form
+                    //Does not get fixed by using Invoke, or providing a owner, or appending the "topmost" flag
+                    Hide();
+                    if (!ConfirmExit.PromptExit())
+                    {
+                        Show();
+                        return;
+                    }
+                }
+
                 Close();
                 return;
             }
@@ -597,6 +609,12 @@ namespace ShareX.ScreenCaptureLib
             }
 
             ClipboardHelpers.CopyText(clipboardText);
+        }
+
+        internal bool AnyShapes()
+        {
+            var shapes = ShapeManager.Shapes.Where(s => s.GetType() != typeof(CursorDrawingShape));
+            return shapes.Any();
         }
 
         public WindowInfo GetWindowInfo()

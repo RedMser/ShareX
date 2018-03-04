@@ -106,6 +106,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ConfirmExit.cs" />
     <Compile Include="Controls\CustomToolStripProfessionalRenderer.cs" />
     <Compile Include="Controls\HotkeySelectionButton.cs">
       <SubType>Component</SubType>
